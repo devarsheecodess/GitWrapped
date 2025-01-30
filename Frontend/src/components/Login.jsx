@@ -10,7 +10,7 @@ const Login = () => {
         <div className="min-h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black flex items-center justify-center p-4">
             <div className="w-full max-w-md">
                 <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-xl border border-white/20">
-                    <div className="text-center space-y-6">
+                    <div className="text-center space-y-6 flex justify-center items-center flex-col">
                         {/* Logo placeholder - you can replace this with your actual logo */}
                         <div className="mx-auto w-16 h-16 bg-white rounded-full flex items-center justify-center">
                             <svg
@@ -35,7 +35,7 @@ const Login = () => {
 
                         <button
                             onClick={handleLogin}
-                            className="w-full group relative flex items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-gray-900 transition-all duration-300 hover:bg-gray-100 hover:shadow-lg"
+                            className="w-full sm:w-auto group relative px-6 sm:px-8 py-3 sm:py-4 bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-full font-bold text-base sm:text-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
                         >
                             <Github className="w-5 h-5" />
                             <span className="font-medium">Login with GitHub</span>

@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@auth/core": "^0.37.4",
+    "axios": "^1.7.9",
     "body-parser": "^2.0.2",
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",

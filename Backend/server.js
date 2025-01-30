@@ -1,10 +1,10 @@
 require("dotenv").config();
-
 const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
 const cors = require("cors");
 const GithubStrategy = require("passport-github2").Strategy;
+const axios = require("axios");
 
 const app = express();
 
@@ -94,6 +94,48 @@ app.get("/logout", (req, res) => {
   });
 });
 
+// Data
+
+app.get('/repos', async (req, res) => {
+  const user = req.query.user;
+  const date = new Date();
+  const year = date.getFullYear();
+
+  try {
+    const response = await axios.get(`https://api.github.com/users/${user}/repos`, {
+      params: {
+        since: `${year}-01-01T00:00:00Z`,
+        until: `${year}-12-31T23:59:59Z`,
+      },
+    });
+
+    res.json({ repoCount: response.data.length });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Github API rate limit exceeded!" });
+  }
+});
+
+app.get('/followers', async (req, res) => {
+  const user = req.query.user;
+  const date = new Date();
+  const year = date.getFullYear();
+
+  try {
+    const response = await axios.get(`https://api.github.com/users/${user}/followers`);
+
+    const followersInYear = await Promise.all(response.data.map(async (follower) => {
+      const userData = await axios.get(follower.url);
+      return new Date(userData.data.created_at).getFullYear() === year ? userData.data : null;
+    }));
+
+    res.json({ followerCount: followersInYear.filter(f => f !== null).length });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({error: "Github API rate limit exceeded!"});
+  }
+});
+
 app.listen(3000, () => {
-  console.log(`Server is running at port 3000`);
+  console.log(`Server is running on http://localhost:3000`);
 });
